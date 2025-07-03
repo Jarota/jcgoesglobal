@@ -24,7 +24,7 @@ function renderCarousel(id) {
   let zoomedHtml = ''
   post.pics.forEach((path) => {
     zoomedHtml += `
-      <img src="images/${path}" class="large-pic">
+      <img src="assets/pics/${path}" class="large-pic">
     `
   })
   carousel.innerHTML = zoomedHtml
@@ -62,7 +62,7 @@ function renderPics(id, pics) {
 
     let picsHtml = ''
     pics.forEach((pic) => {
-      picsHtml += `<img class="pic" src="images/${pic}">`
+      picsHtml += `<img class="pic" src="assets/pics/${pic}">`
     })
 
     return `
