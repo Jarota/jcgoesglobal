@@ -1,0 +1,186 @@
+body {
+  margin: 0;
+  background: #BBBDF6;
+  color: black;
+
+  font-family: "Fredoka", sans-serif;
+}
+
+/* Typography */
+
+h1 {
+  font-family: "Damion", cursive;
+
+  text-align: center;
+  margin: 60px 0;
+}
+
+.caption {
+  margin: 0;
+
+  font-size: 18px;
+}
+
+/* Layout */
+
+#carousel {
+  background: #95D7AE;
+
+  width: max-content;
+  height: max-content;
+  max-width: 90%;
+  max-height: 85%;
+
+  position: fixed;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  z-index: 3;
+
+  border: 4px solid #593C8F;
+  border-radius: 6px;
+  /* box-shadow: 0 0 2px 4px #593C8F; */
+
+  padding: 10px;
+  gap: 10px;
+  overflow: scroll;
+}
+
+.large-pic {
+  max-height: 85vh;
+
+  border-radius: 4px;
+}
+
+.hidden {
+  display: none;
+}
+
+.flex {
+  display: flex;
+}
+
+#timeline {
+  flex-direction: column;
+  align-items: center;
+}
+
+.post {
+  background: #95D7AE;
+
+  min-width: 200px;
+  max-width: 400px;
+
+  overflow: scroll;
+
+  padding: 15px;
+
+  border: 4px solid #593C8F;
+  border-radius: 6px;
+
+  box-shadow: -4px 4px #593C8F;
+
+  position: relative;
+}
+
+.pics {
+  margin-top: 15px;
+  overflow: scroll;
+}
+
+.pic {
+  height: 300px;
+  border-radius: 4px;
+}
+
+.zoom-btn {
+  background: #DB5461;
+  color: white;
+
+  padding: 12px;
+  font-size: 22px;
+
+  border: none;
+  border-radius: 50%;
+
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+
+  transition: padding 0.15s ease-out,
+    font-size 0.15s ease-out,
+    bottom 0.15s ease-out,
+    right 0.15s ease-out;
+}
+
+.zoom-btn:hover {
+  cursor: pointer;
+
+  padding: 16px;
+  font-size: 26px;
+
+  bottom: 0;
+  right: 0;
+}
+
+.vr {
+  height: 60px;
+  border-left: 4px dotted #593C8F;
+}
+
+.ferns {
+  height: 200px;
+  position: fixed;
+  margin: auto;
+
+  z-index: 2;
+}
+
+.top-left {
+  top: -24px;
+  left: -24px;
+
+  transform: rotate(90deg);
+}
+
+.top-right {
+  top: -24px;
+  right: -24px;
+
+  transform: rotate(180deg);
+}
+
+.bottom-left {
+  bottom: -24px;
+  left: -24px;
+}
+
+.bottom-right {
+  bottom: -24px;
+  right: -24px;
+
+  transform: rotate(270deg);
+}
+
+footer {
+  height: 80px;
+}
+
+/* Animations */
+
+.fade-in {
+  animation: fade 0.15s ease-out;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0%;
+  }
+
+  to {
+    opacity: 100%;
+  }
+}
