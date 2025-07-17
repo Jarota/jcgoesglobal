@@ -2,7 +2,7 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles/index.css">
+  <link rel="stylesheet" href="styles/new-post.css">
   <link rel="stylesheet" href="styles/shared.css">
   <link rel="stylesheet" href="styles/animations.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,19 +17,24 @@
   <header>
     <img src="assets/ferns.png" class="ferns top-left">
     <img src="assets/ferns.png" class="ferns top-right">
-    <h1>James & Clíona's Big Trip</h1>
+    <h1>Upload a new Post!</h1>
     <nav>
-      <a href="new-post.html">
-        <i class="fa-solid fa-square-plus"></i>
-        new post
+      <a href="index.html">
+        <i class="fa-solid fa-arrow-left"></i>
+        Back
       </a>
       <hr>
     </nav>
   </header>
 
   <main>
-    <div id="timeline" class="flex"></div>
-    <div id="carousel" class="fade-in hidden"></div>
+    <form id="new-post-form">
+      <label for="caption">Caption</label>
+      <textarea id="caption" name="caption" placeholder="Here we are in ..." required></textarea>
+      <label for="image-upload">Add pics</label>
+      <input id="image-upload" type="file">
+      <button type="submit">Post!</button>
+    </form>
   </main>
 
   <footer>

@@ -1,0 +1,31 @@
+@import "styles/shared.css";
+
+#new-post-form {
+  width: 85%;
+  max-width: 400px;
+
+  margin: 0 auto;
+
+  font-size: 18px;
+
+  animation: fade 1.25s linear;
+}
+
+textarea {
+  width: 100%;
+  resize: vertical;
+
+  background: #95D7AE;
+  color: black;
+
+  font-size: 18px;
+  padding: 12px;
+  margin: 10px;
+
+  border-radius: 8px;
+}
+
+textarea:active,
+textarea:focus-visible {
+  outline: solid #DB5461 2px;
+}
