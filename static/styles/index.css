@@ -1,27 +1,11 @@
-body {
-  margin: 0;
-  background: #BBBDF6;
-  color: black;
-
-  font-family: "Fredoka", sans-serif;
-}
-
-/* Typography */
-
-h1 {
-  font-family: "Damion", cursive;
-
-  text-align: center;
-  margin: 60px 0;
-}
+@import "styles/shared.css";
+@import "styles/animations.css";
 
 .caption {
   margin: 0;
 
   font-size: 18px;
 }
-
-/* Layout */
 
 #carousel {
   background: #95D7AE;
@@ -66,6 +50,7 @@ h1 {
 #timeline {
   flex-direction: column;
   align-items: center;
+  animation: fade 1.25s linear;
 }
 
 .post {
@@ -136,56 +121,10 @@ h1 {
   border-left: 4px dotted #593C8F;
 }
 
-.ferns {
-  height: 200px;
-  position: fixed;
-  margin: auto;
-
-  z-index: 2;
-}
-
-.top-left {
-  top: -24px;
-  left: -24px;
-
-  transform: rotate(90deg);
-}
-
-.top-right {
-  top: -24px;
-  right: -24px;
-
-  transform: rotate(180deg);
-}
-
-.bottom-left {
-  bottom: -24px;
-  left: -24px;
-}
-
-.bottom-right {
-  bottom: -24px;
-  right: -24px;
-
-  transform: rotate(270deg);
-}
-
 footer {
   height: 80px;
 }
 
-/* Animations */
-
 .fade-in {
   animation: fade 0.15s ease-out;
-}
-
-@keyframes fade {
-  from {
-    opacity: 0%;
-  }
-
-  to {
-    opacity: 100%;
-  }
 }

@@ -1,0 +1,51 @@
+/* Animations */
+
+@keyframes fade {
+  from {
+    opacity: 0%;
+  }
+
+  to {
+    opacity: 100%;
+  }
+}
+
+@keyframes from-left {
+  from {
+    left: -100px;
+  }
+
+  to {
+    left: -24px;
+  }
+}
+
+@keyframes from-right {
+  from {
+    right: -100px;
+  }
+
+  to {
+    right: -24px;
+  }
+}
+
+@keyframes from-top {
+  from {
+    top: -100px;
+  }
+
+  to {
+    top: -24px;
+  }
+}
+
+@keyframes from-bottom {
+  from {
+    bottom: -100px;
+  }
+
+  to {
+    bottom: -24px;
+  }
+}

@@ -14,6 +14,7 @@ document.addEventListener('click', (e) => {
   if (e.target.id !== 'carousel' && !e.target.classList.contains('large-pic')) {
     carousel.classList.add('hidden')
     carousel.classList.remove('flex')
+    document.body.style.overflowY = '' // Re-enable scrolling too
     return
   }
 })
@@ -30,6 +31,9 @@ function renderCarousel(id) {
   carousel.innerHTML = zoomedHtml
   carousel.classList.add('flex')
   carousel.classList.remove('hidden')
+
+  // Also prevent scrolling in the background
+  document.body.style.overflowY = 'hidden'
 }
 
 function renderTimeline() {
