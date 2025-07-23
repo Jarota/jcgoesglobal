@@ -1,18 +1,13 @@
-@import "styles/shared.css";
-
 #new-post-form {
-  width: 85%;
-  max-width: 400px;
+  width: 400px;
 
   margin: 0 auto;
-
-  font-size: 18px;
 
   animation: fade 1.25s linear;
 }
 
 textarea {
-  width: 100%;
+  width: 376px;
   resize: vertical;
 
   background: #95D7AE;
@@ -20,7 +15,7 @@ textarea {
 
   font-size: 18px;
   padding: 12px;
-  margin: 10px;
+  margin: 10px 0;
 
   border-radius: 8px;
 }
@@ -28,4 +23,47 @@ textarea {
 textarea:active,
 textarea:focus-visible {
   outline: solid #DB5461 2px;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+#image-upload {
+  opacity: 0;
+}
+
+.image-upload-label {
+  color: white;
+  background: #DB5461;
+
+  margin: 10px 0;
+  padding: 12px;
+  border-radius: 12px;
+  border: 2px solid #DB5461;
+
+  transition: all 0.3s ease-in-out;
+}
+
+button {
+  background: #DB5461;
+  color: white;
+
+  margin: 10px 0;
+  font-size: 18px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 2px solid #DB5461;
+
+  transition: all 0.3s ease-in-out;
+}
+
+.image-upload-label:hover,
+button:hover {
+  background: #BBBDF6;
+  color: #DB5461;
+  border: 2px solid #DB5461;
+
+  cursor: pointer;
 }

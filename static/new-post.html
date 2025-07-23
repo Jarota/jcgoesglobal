@@ -17,7 +17,7 @@
   <header>
     <img src="assets/ferns.png" class="ferns top-left">
     <img src="assets/ferns.png" class="ferns top-right">
-    <h1>Upload a new Post!</h1>
+    <h1>Create A New Post!</h1>
     <nav>
       <a href="index.html">
         <i class="fa-solid fa-arrow-left"></i>
@@ -28,12 +28,20 @@
   </header>
 
   <main>
-    <form id="new-post-form">
-      <label for="caption">Caption</label>
+    <form id="new-post-form" name="new-post-form" method="post">
+
+      <label for="caption">Add Caption</label>
       <textarea id="caption" name="caption" placeholder="Here we are in ..." required></textarea>
-      <label for="image-upload">Add pics</label>
-      <input id="image-upload" type="file">
-      <button type="submit">Post!</button>
+
+      <div class="form-buttons">
+
+        <label for="image-upload" class="image-upload-label">Add Pics</label>
+        <input id="image-upload" name="image-upload" type="file" accept="image/*,video/*" multiple>
+
+        <button type="submit">Post!</button>
+
+      </div>
+
     </form>
   </main>
 
