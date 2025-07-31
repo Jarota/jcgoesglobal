@@ -8,7 +8,7 @@ fetch('/api/all').then(resp => {
   }
 
   resp.json().then(postsJson => {
-    posts = postsJson
+    posts = postsJson.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
     renderTimeline()
   })
 })

@@ -32,6 +32,7 @@ textarea:focus-visible {
 
 #image-upload {
   opacity: 0;
+  width: 1px;
 }
 
 .image-upload-label {

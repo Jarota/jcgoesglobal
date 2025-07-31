@@ -3,12 +3,13 @@ package storage
 import (
 	"database/sql"
 	"fmt"
+	"time"
 
 	"github.com/jarota/jctravels/internal/model"
 )
 
 const lookupAllSQL = `
-	SELECT posts.id, posts.caption, images.filename
+	SELECT posts.id, posts.caption, images.filename, posts.created_at
 	FROM posts LEFT JOIN images ON posts.id = images.post_id
 	ORDER BY posts.created_at DESC;
 `
@@ -24,14 +25,16 @@ func (s *store) LookupAll() ([]*model.Post, error) {
 	for rows.Next() {
 		var id, caption string
 		var filename sql.NullString
-		if err := rows.Scan(&id, &caption, &filename); err != nil {
+		var createdAt time.Time
+		if err := rows.Scan(&id, &caption, &filename, &createdAt); err != nil {
 			return nil, fmt.Errorf("failed to scan row: %w", err)
 		}
 
 		if _, ok := posts[id]; !ok {
 			posts[id] = &model.Post{
-				ID:      id,
-				Caption: caption,
+				ID:        id,
+				Caption:   caption,
+				CreatedAt: createdAt,
 			}
 		}
 
