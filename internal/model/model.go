@@ -1,7 +1,7 @@
 package model
 
 type Post struct {
-	ID      string
-	Caption string
-	Pics    []string // image filenames
+	ID      string   `json:"id"`
+	Caption string   `json:"caption"`
+	Pics    []string `json:"pics"`
 }

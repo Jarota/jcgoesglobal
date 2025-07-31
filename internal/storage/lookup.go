@@ -9,7 +9,8 @@ import (
 
 const lookupAllSQL = `
 	SELECT posts.id, posts.caption, images.filename
-	FROM posts LEFT JOIN images ON posts.id = images.post_id;
+	FROM posts LEFT JOIN images ON posts.id = images.post_id
+	ORDER BY posts.created_at DESC;
 `
 
 func (s *store) LookupAll() ([]*model.Post, error) {
