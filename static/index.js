@@ -1,6 +1,17 @@
-import { posts } from './data.js'
-
 let carousel = document.getElementById('carousel')
+
+let posts = []
+fetch('/api/all').then(resp => {
+  if (!resp.ok) {
+    console.log('failed to fetch posts', `status: ${resp.status}`)
+    return
+  }
+
+  resp.json().then(postsJson => {
+    posts = postsJson.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    renderTimeline()
+  })
+})
 
 document.addEventListener('click', (e) => {
   // Show the carousel when clicking a zoom button
@@ -56,11 +67,15 @@ function renderTimeline() {
     `
   })
 
+  if (timelineHtml === '') {
+    timelineHtml = `<p>No posts (yet)!</p>`
+  }
+
   document.getElementById('timeline').innerHTML = timelineHtml
 }
 
 function renderPics(id, pics) {
-    if (pics.length === 0) {
+    if (!pics || pics.length === 0) {
       return ''
     }
 
@@ -78,5 +93,3 @@ function renderPics(id, pics) {
       </button>
     `
 }
-
-renderTimeline()

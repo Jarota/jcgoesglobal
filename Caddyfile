@@ -1,0 +1,7 @@
+localhost {
+	root * ./static
+	
+	reverse_proxy /api/* :8080
+
+	file_server
+}
