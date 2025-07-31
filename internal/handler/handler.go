@@ -42,6 +42,11 @@ func (h *handler) NewPost(w http.ResponseWriter, r *http.Request) {
 	postID := uuid.NewString()
 	caption := r.MultipartForm.Value[FormCaptionKey][0]
 	err = h.store.CreatePost(postID, caption)
+	if err != nil {
+		slog.Error("failed to create post", slog.Any("err", err))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 
 	// Save any images uploaded too
 	if r.MultipartForm != nil && r.MultipartForm.File != nil {
@@ -66,5 +71,10 @@ func (h *handler) AllPosts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	json.NewEncoder(w).Encode(posts)
+	err = json.NewEncoder(w).Encode(posts)
+	if err != nil {
+		slog.Error("failed to encode posts", slog.Any("err", err))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 }
