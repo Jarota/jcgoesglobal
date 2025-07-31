@@ -10,11 +10,17 @@ import (
 
 func main() {
 
-	store, err := storage.New("localhost")
+	store, err := storage.New("file:app.db")
 	if err != nil {
 		slog.Error("failed to create new store", slog.Any("err", err))
 		return
 	}
+	defer func() {
+		err = store.Close()
+		if err != nil {
+			slog.Error("failed to close store", slog.Any("err", err))
+		}
+	}()
 
 	h := handler.New(store)
 	http.HandleFunc("POST /api/new", h.NewPost)
