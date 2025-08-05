@@ -1,6 +1,9 @@
 localhost {
 	root * ./static
 	
+	basic_auth /api/new {
+		jim $2a$14$zszMfjV.Dx/h1kP5YV12WuTx7Dl7b20tPfYQLj15mtAiC2/Alhf/m
+	}
 	reverse_proxy /api/* :8080
 
 	file_server

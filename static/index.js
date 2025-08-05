@@ -14,6 +14,12 @@ fetch('/api/all').then(resp => {
 })
 
 document.addEventListener('click', (e) => {
+  // Navigate to new post when title is triple-clicked
+  if (e.target.id === 'title' && e.detail === 3) {
+    document.location = 'new-post.html'
+    return
+  }
+
   // Show the carousel when clicking a zoom button
   const postToZoom = e.target.dataset.zoom
   if (postToZoom) {
