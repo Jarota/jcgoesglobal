@@ -22,9 +22,10 @@
 
           go
           gopls
-          caddy
-
           sqlite
+
+          caddy
+          just
         ];
       };
     });
