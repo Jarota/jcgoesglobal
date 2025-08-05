@@ -9,7 +9,7 @@ import (
 )
 
 const createPostSQL = `
-	INSERT INTO posts (id, caption, author, hearts) VALUES ($1, $2);
+	INSERT INTO posts (id, caption, author, hearts) VALUES ($1, $2, $3, $4);
 `
 
 func (s *store) CreatePost(postID, caption, author string, hearts int) error {
