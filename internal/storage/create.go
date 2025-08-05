@@ -9,11 +9,11 @@ import (
 )
 
 const createPostSQL = `
-	INSERT INTO posts (id, caption) VALUES ($1, $2);
+	INSERT INTO posts (id, caption, author, hearts) VALUES ($1, $2);
 `
 
-func (s *store) CreatePost(postID, caption string) error {
-	res, err := s.db.Exec(createPostSQL, postID, caption)
+func (s *store) CreatePost(postID, caption, author string, hearts int) error {
+	res, err := s.db.Exec(createPostSQL, postID, caption, author, hearts)
 	if err != nil {
 		return fmt.Errorf("failed to exec create post sql: %w", err)
 	}

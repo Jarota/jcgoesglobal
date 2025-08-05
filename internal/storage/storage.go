@@ -46,6 +46,8 @@ const initSQL = `
 	CREATE TABLE IF NOT EXISTS posts (
 		id         TEXT     NOT NULL PRIMARY KEY,
 		caption    TEXT     NOT NULL,
+		author     TEXT     NOT NULL,
+		hearts     INTEGER  NOT NULL,
 		created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 		updated_at DATETIME NULL
 	);

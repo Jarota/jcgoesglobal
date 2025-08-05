@@ -16,7 +16,7 @@ const (
 )
 
 type Store interface {
-	CreatePost(postID, caption string) error
+	CreatePost(postID, caption, author string, likes int) error
 	CreateImages(postID string, fileHeaders []*multipart.FileHeader) error
 	LookupAll() ([]*model.Post, error)
 }
@@ -32,6 +32,13 @@ func New(store Store) *handler {
 func (h *handler) NewPost(w http.ResponseWriter, r *http.Request) {
 	slog.Info("handling request to new post")
 
+	author, _, ok := r.BasicAuth()
+	if !ok {
+		slog.Error("missing basic auth details")
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
 	err := r.ParseMultipartForm(32 << 20) // 32 MB
 	if err != nil {
 		slog.Error("failed to parse form", slog.Any("err", err))
@@ -41,7 +48,7 @@ func (h *handler) NewPost(w http.ResponseWriter, r *http.Request) {
 
 	postID := uuid.NewString()
 	caption := r.MultipartForm.Value[FormCaptionKey][0]
-	err = h.store.CreatePost(postID, caption)
+	err = h.store.CreatePost(postID, caption, author, 0)
 	if err != nil {
 		slog.Error("failed to create post", slog.Any("err", err))
 		w.WriteHeader(http.StatusInternalServerError)
