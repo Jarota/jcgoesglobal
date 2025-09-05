@@ -1,51 +1,41 @@
 /* Animations */
 
-@keyframes fade {
-  from {
-    opacity: 0%;
-  }
-
-  to {
-    opacity: 100%;
-  }
-}
-
 @keyframes from-left {
   from {
-    left: -100px;
+    left: -5vw;
   }
 
   to {
-    left: -24px;
+    left: -20vw;
   }
 }
 
 @keyframes from-right {
   from {
-    right: -100px;
+    right: -5vw;
   }
 
   to {
-    right: -24px;
+    right: -20vw;
   }
 }
 
 @keyframes from-top {
   from {
-    top: -100px;
+    top: -5vw;
   }
 
   to {
-    top: -24px;
+    top: -20vw;
   }
 }
 
 @keyframes from-bottom {
   from {
-    bottom: -100px;
+    bottom: -5vw;
   }
 
   to {
-    bottom: -24px;
+    bottom: -20vw;
   }
 }

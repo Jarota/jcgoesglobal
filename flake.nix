@@ -24,6 +24,7 @@
           gopls
           sqlite
 
+          dotenvx
           caddy
           just
         ];

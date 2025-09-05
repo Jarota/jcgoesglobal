@@ -1,5 +1,6 @@
 #new-post-form {
-  width: 400px;
+  width: 90vw;
+  max-width: 400px;
 
   margin: 0 auto;
 
@@ -7,7 +8,8 @@
 }
 
 textarea {
-  width: 376px;
+  display: block;
+  width: calc(100% - 24px);
   resize: vertical;
 
   background: #95D7AE;

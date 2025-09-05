@@ -13,14 +13,13 @@ fetch('/api/all').then(resp => {
   })
 })
 
-document.addEventListener('click', (e) => {
-  // Navigate to new post when title is triple-clicked
-  if (e.target.id === 'title' && e.detail === 3) {
+document.getElementById('title').addEventListener('dblclick', () => {
     document.location = 'new-post.html'
     return
-  }
+})
 
-  // Show the carousel when clicking a zoom button
+document.addEventListener('click', (e) => {
+  // Show the carousel when clicking on pics
   const postToZoom = e.target.dataset.zoom
   if (postToZoom) {
     renderCarousel(postToZoom)
@@ -29,9 +28,7 @@ document.addEventListener('click', (e) => {
 
   // Hide the carousel when 'clicking away'
   if (e.target.id !== 'carousel' && !e.target.classList.contains('large-pic')) {
-    carousel.classList.add('hidden')
-    carousel.classList.remove('flex')
-    document.body.style.overflowY = '' // Re-enable scrolling too
+    hideCarousel()
     return
   }
 })
@@ -46,11 +43,17 @@ function renderCarousel(id) {
     `
   })
   carousel.innerHTML = zoomedHtml
-  carousel.classList.add('flex')
   carousel.classList.remove('hidden')
+  carousel.classList.add('shown')
 
   // Also prevent scrolling in the background
   document.body.style.overflowY = 'hidden'
+}
+
+function hideCarousel() {
+    carousel.classList.remove('shown')
+    carousel.classList.add('hidden')
+    document.body.style.overflowY = '' // Re-enable scrolling too
 }
 
 function renderTimeline() {
@@ -67,7 +70,9 @@ function renderTimeline() {
     timelineHtml += `
       ${verticalLine}
       <div class="post" id="${post.id}">
-        <p class="caption">${post.caption}</p>
+        <div class="caption-cntr">
+          <p class="caption">${post.caption}</p>
+        </div>
         ${renderPics(post.id, post.pics)}
       </div>
     `
@@ -86,16 +91,20 @@ function renderPics(id, pics) {
     }
 
     let picsHtml = ''
+    let degrees = -10
+    let z = -1
     pics.forEach((pic) => {
-      picsHtml += `<img class="pic" src="assets/pics/${pic}">`
+      picsHtml += `<img class="pic"
+        src="assets/pics/${pic}" data-zoom="${id}"
+        style="transform: rotate(${degrees}deg); z-index: ${z};"
+      >`
+      degrees = (degrees > 0 ? degrees + 10 : degrees - 10) * -1
+      z -= 1
     })
 
     return `
-      <div class="pics flex">
+      <div class="pics" data-zoom="${id}">
         ${picsHtml}
       </div>
-      <button class="zoom-btn" data-zoom="${id}">
-        <i class="fa-solid fa-up-right-and-down-left-from-center" data-zoom="${id}"></i>
-      </button>
     `
 }

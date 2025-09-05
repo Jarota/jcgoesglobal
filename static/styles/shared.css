@@ -12,13 +12,11 @@ h1 {
   text-align: center;
   margin: 60px 0 20px;
 
-  cursor: pointer;
   user-select: none;
 }
 
 nav {
   width: 75%;
-  min-width: 500px;
   margin: 0 auto 30px;
 }
 
@@ -48,45 +46,45 @@ hr {
 }
 
 .ferns {
-  height: 200px;
+  height: 35vw;
   position: fixed;
   margin: auto;
 
   pointer-events: none;
 
-  z-index: -1;
+  z-index: 2;
 }
 
 .top-left {
-  top: -24px;
-  left: -24px;
+  top: -20vw;
+  left: -20vw;
   animation: from-top 1.5s ease-in-out,
-    from-left 1s ease-in-out;
+    from-left 1.5s ease-in-out;
 
   transform: rotate(90deg);
 }
 
 .top-right {
-  top: -24px;
-  right: -24px;
+  top: -20vw;
+  right: -20vw;
   animation: from-top 1.5s ease-in-out,
-    from-right 1s ease-in-out;
+    from-right 1.5s ease-in-out;
 
   transform: rotate(180deg);
 }
 
 .bottom-left {
-  bottom: -24px;
-  left: -24px;
+  bottom: -20vw;
+  left: -20vw;
   animation: from-bottom 1.5s ease-in-out,
-    from-left 1s ease-in-out;
+    from-left 1.5s ease-in-out;
 }
 
 .bottom-right {
-  bottom: -24px;
-  right: -24px;
+  bottom: -20vw;
+  right: -20vw;
   animation: from-bottom 1.5s ease-in-out,
-    from-right 1s ease-in-out;
+    from-right 1.5s ease-in-out;
 
   transform: rotate(270deg);
 }
