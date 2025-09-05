@@ -13,11 +13,6 @@ fetch('/api/all').then(resp => {
   })
 })
 
-document.getElementById('title').addEventListener('dblclick', () => {
-    document.location = 'new-post.html'
-    return
-})
-
 document.addEventListener('click', (e) => {
   // Show the carousel when clicking on pics
   const postToZoom = e.target.dataset.zoom
@@ -108,3 +103,25 @@ function renderPics(id, pics) {
       </div>
     `
 }
+
+/* SECRET NAV HANDLERS */
+
+let titleEl = document.getElementById('title')
+let longTapTimer
+
+function redirectToNewPost() {
+  document.location = 'new-post.html'
+}
+
+titleEl.addEventListener('pointerdown', (e) => {
+  e.preventDefault()
+  longTapTimer = setTimeout(redirectToNewPost, 300)
+})
+
+function cancelTimer() {
+  clearTimeout(longTapTimer)
+}
+
+titleEl.addEventListener('pointerup', cancelTimer)
+titleEl.addEventListener('pointercancel', cancelTimer)
+titleEl.addEventListener('pointermove', cancelTimer)
