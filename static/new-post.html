@@ -1,6 +1,7 @@
 <!doctype html>
 
 <head>
+  <title>New JC Post</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -9,7 +10,11 @@
   <script src="https://kit.fontawesome.com/ff09a171a7.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="styles/new-post.css">
   <link rel="stylesheet" href="styles/shared.css">
-  <link rel="stylesheet" href="styles/animations.css">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+  <link rel="manifest" href="assets/site.webmanifest">
 </head>
 
 <body>
@@ -17,10 +22,6 @@
   <header>
     <h1>Create A New Post!</h1>
     <nav>
-      <!-- <a href="index.html"> -->
-      <!-- <i class="fa-solid fa-arrow-left"></i> -->
-      <!-- Back -->
-      <!-- </a> -->
       <hr>
     </nav>
   </header>
@@ -41,9 +42,16 @@
       </div>
 
     </form>
+
+    <div id="preview">
+      <p>Nothing to preview (yet)</p>
+    </div>
+    <div id="carousel" class="hidden"></div>
   </main>
 
   <footer>
   </footer>
+
+  <script src="new-post.js" type="module"></script>
 
 </body>

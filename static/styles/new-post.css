@@ -70,3 +70,8 @@ button:hover {
 
   cursor: pointer;
 }
+
+/* For initial preview text */
+p {
+  text-align: center;
+}
