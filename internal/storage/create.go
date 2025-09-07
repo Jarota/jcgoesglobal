@@ -6,6 +6,8 @@ import (
 	"io"
 	"mime/multipart"
 	"os"
+
+	"github.com/google/uuid"
 )
 
 const createPostSQL = `
@@ -22,7 +24,7 @@ func (s *store) CreatePost(postID, caption, author string, hearts int) error {
 }
 
 const createImageSQL = `
-	INSERT INTO images (filename, post_id) VALUES ($1, $2);
+	INSERT INTO images (id, filename, post_id) VALUES ($1, $2, $3);
 `
 
 func (s *store) CreateImages(postID string, fileHeaders []*multipart.FileHeader) error {
@@ -44,7 +46,7 @@ func (s *store) CreateImages(postID string, fileHeaders []*multipart.FileHeader)
 			return fmt.Errorf("failed to copy file: %w", err)
 		}
 
-		res, err := s.db.Exec(createImageSQL, f.Filename, postID)
+		res, err := s.db.Exec(createImageSQL, uuid.NewString(), f.Filename, postID)
 		if err != nil {
 			return fmt.Errorf("failed to exec create image sql: %w", err)
 		}
