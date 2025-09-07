@@ -51,7 +51,8 @@ const initSQL = `
 	);
 
 	CREATE TABLE IF NOT EXISTS images (
-		filename   TEXT     NOT NULL PRIMARY KEY,
+		id         TEXT     NOT NULL PRIMARY KEY,
+		filename   TEXT     NOT NULL,
 		post_id    TEXT     NOT NULL,
 		created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 		updated_at DATETIME NULL
