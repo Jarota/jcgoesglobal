@@ -1,41 +1,57 @@
 /* Animations */
 
 @keyframes from-left {
-  from {
+  0% {
     left: -5vw;
   }
 
-  to {
+  50% {
+    left: -5vw;
+  }
+
+  100% {
     left: -20vw;
   }
 }
 
 @keyframes from-right {
-  from {
+  0% {
     right: -5vw;
   }
 
-  to {
+  50% {
+    right: -5vw;
+  }
+
+  100% {
     right: -20vw;
   }
 }
 
 @keyframes from-top {
-  from {
+  0% {
     top: -5vw;
   }
 
-  to {
+  50% {
+    top: -5vw;
+  }
+
+  100% {
     top: -20vw;
   }
 }
 
 @keyframes from-bottom {
-  from {
+  0% {
     bottom: -5vw;
   }
 
-  to {
+  50% {
+    bottom: -5vw;
+  }
+
+  100% {
     bottom: -20vw;
   }
 }
