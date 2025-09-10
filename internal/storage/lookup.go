@@ -42,7 +42,9 @@ func (s *store) LookupAll() ([]*model.Post, error) {
 		}
 
 		if filename.Valid {
-			posts[id].Pics = append(posts[id].Pics, filename.String)
+			// Only need to append `filename` to `uploadDir` when returning
+			// as the frontend is served from *within* `s.siteRoot`
+			posts[id].Pics = append(posts[id].Pics, s.uploadDir+filename.String)
 		}
 	}
 

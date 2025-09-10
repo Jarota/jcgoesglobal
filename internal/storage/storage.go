@@ -12,10 +12,11 @@ const driver = "sqlite3"
 
 type store struct {
 	db        *sql.DB
+	siteRoot  string
 	uploadDir string
 }
 
-func New(dsn, uploadDir string) (*store, error) {
+func New(dsn, staticDir, uploadDir string) (*store, error) {
 	db, err := sql.Open(driver, dsn)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open db: %w", err)
@@ -26,7 +27,11 @@ func New(dsn, uploadDir string) (*store, error) {
 		return nil, fmt.Errorf("failed to ping db: %w", err)
 	}
 
-	s := &store{db, uploadDir}
+	s := &store{
+		db:        db,
+		siteRoot:  staticDir,
+		uploadDir: uploadDir,
+	}
 	if err = s.init(); err != nil {
 		return nil, fmt.Errorf("failed to init store: %w", err)
 	}
@@ -70,7 +75,7 @@ func (s *store) init() error {
 	}
 
 	// make sure upload dir exists before handling requests
-	err = os.MkdirAll(s.uploadDir, 0755)
+	err = os.MkdirAll(s.siteRoot+s.uploadDir, 0755)
 	if err != nil {
 		return fmt.Errorf("failed to make upload dir: %w", err)
 	}

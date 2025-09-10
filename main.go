@@ -12,6 +12,7 @@ import (
 
 var (
 	dbDSN     string
+	siteRoot  string
 	uploadDir string
 	httpPort  string
 )
@@ -24,7 +25,7 @@ func main() {
 	}
 
 	slog.Info("initialising storage...")
-	store, err := storage.New(dbDSN, uploadDir)
+	store, err := storage.New(dbDSN, siteRoot, uploadDir)
 	if err != nil {
 		slog.Error("failed to create new store", slog.Any("err", err))
 		return
@@ -57,6 +58,11 @@ func loadEnv() error {
 	dbDSN = os.Getenv("DB_DSN")
 	if dbDSN == "" {
 		return errors.New("missing db dsn env var")
+	}
+
+	siteRoot = os.Getenv("SITE_ROOT")
+	if siteRoot == "" {
+		return errors.New("missing site root env var")
 	}
 
 	uploadDir = os.Getenv("UPLOAD_DIR")

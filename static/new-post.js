@@ -22,10 +22,16 @@ function updatePreviewCaption() {
 
 fileInput.addEventListener('change', updatePreviewPics)
 function updatePreviewPics() {
+  post.pics = []
   for (const file of fileInput.files) {
-    post.pics.push(file.name)
+    const reader = new FileReader()
+
+    reader.onload = function (e) {
+      post.pics.push(e.target.result)
+      preview.innerHTML = renderPost(post)
+    }
+    reader.readAsDataURL(file)
   }
-  preview.innerHTML = renderPost(post)
 }
 
 document.addEventListener('click', (e) => {

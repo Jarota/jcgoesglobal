@@ -35,7 +35,7 @@ func (s *store) CreateImages(postID string, fileHeaders []*multipart.FileHeader)
 		}
 		defer file.Close()
 
-		dst, err := os.Create(s.uploadDir + f.Filename)
+		dst, err := os.Create(s.siteRoot + s.uploadDir + f.Filename)
 		if err != nil {
 			return fmt.Errorf("failed to create file %s: %w", f.Filename, err)
 		}

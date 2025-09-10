@@ -2,7 +2,7 @@ function renderCarousel(carousel, post) {
   let zoomedHtml = ''
   post.pics.forEach((path) => {
     zoomedHtml += `
-      <img src="assets/pics/${path}" class="large-pic">
+      <img src="${path}" class="large-pic">
     `
   })
   carousel.innerHTML = zoomedHtml
@@ -55,17 +55,17 @@ function renderPost(post) {
   `  
 }
 
-function renderPics(id, pics) {
-  if (!pics || pics.length === 0) {
+function renderPics(id, paths) {
+  if (!paths || paths.length === 0) {
     return ''
   }
 
   let picsHtml = ''
   let degrees = -10
   let z = -1
-  pics.forEach((pic) => {
+  paths.forEach((path) => {
     picsHtml += `<img class="pic"
-      src="assets/pics/${pic}" data-zoom="${id}"
+      src="${path}" data-zoom="${id}"
       style="transform: rotate(${degrees}deg); z-index: ${z};"
     >`
 
