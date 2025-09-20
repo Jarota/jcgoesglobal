@@ -23,10 +23,8 @@
           go
           gopls
           sqlite
-
-          dotenvx
-          caddy
           just
+          caddy
         ];
       };
     });
