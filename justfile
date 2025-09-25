@@ -4,16 +4,19 @@ default:
 build:
     podman build -t jcapi:latest --build-arg=ENVFILE=.env .
 
-local:
+start:
     caddy start
 
-    podman rm api
-
-    podman run -it --name api \
+    podman run -d --name api \
     -v ./static/assets/pics:/root/static/assets/pics \
     -v ./app.db:/root/app.db \
     --publish 8080:8080 \
     jcapi
+
+stop:
+    caddy stop
+    podman stop api
+    podman rm api
 
 deploy-fe:
     rsync -azP --delete --exclude=assets/pics ./static/ \
