@@ -1,11 +1,13 @@
 import {renderCarousel, hideCarousel, renderTimeline} from './render.js'
 
+let mainErr = document.getElementById('main-err')
 let carousel = document.getElementById('carousel')
 
 let posts = []
 fetch('/api/all').then(resp => {
   if (!resp.ok) {
     console.log('failed to fetch posts', `status: ${resp.status}`)
+    mainErr.innerText = "Oops, it borked. Come back later! 🛠️"
     return
   }
 

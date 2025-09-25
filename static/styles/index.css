@@ -1,3 +1,11 @@
+.error {
+  font-size: large;
+  text-align: center;
+  text-decoration: underline;
+  text-decoration-color: red;
+  text-decoration-style: wavy;
+}
+
 #timeline {
   display: flex;
   flex-direction: column;
