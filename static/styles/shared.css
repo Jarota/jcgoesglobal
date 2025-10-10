@@ -151,10 +151,11 @@ hr {
   cursor: zoom-in;
 }
 
-.pic {
+.pic-cntr {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+
+  background: #BBBDF6;
 
   border: 2px solid #593C8F;
   border-radius: 24px;
@@ -162,7 +163,46 @@ hr {
   position: absolute;
 }
 
+.pic {
+  width: 100%;
+  height: 100%;
+  border-radius: 22px;
+  object-fit: cover;
+}
+
 .fade-in {
   animation: fade 0.15s ease-out;
   animation-delay: 0.1s;
+}
+
+/* shamelessly lifted from https://css-loaders.com/dots/ */
+.loader {
+  width: 60px;
+  margin: 100px auto 0;
+  aspect-ratio: 2;
+  --_g: no-repeat radial-gradient(circle closest-side, #593C8F 90%, #593C8F00);
+  background:
+    var(--_g) 0% 50%,
+    var(--_g) 50% 50%,
+    var(--_g) 100% 50%;
+  background-size: calc(100%/3) 50%;
+  animation: l3 1s infinite linear;
+}
+
+@keyframes l3 {
+  20% {
+    background-position: 0% 0%, 50% 50%, 100% 50%
+  }
+
+  40% {
+    background-position: 0% 100%, 50% 0%, 100% 50%
+  }
+
+  60% {
+    background-position: 0% 50%, 50% 100%, 100% 0%
+  }
+
+  80% {
+    background-position: 0% 50%, 50% 50%, 100% 100%
+  }
 }

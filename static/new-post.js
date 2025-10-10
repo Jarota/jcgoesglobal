@@ -17,7 +17,8 @@ let post = {
 captionInput.addEventListener('change', updatePreviewCaption)
 function updatePreviewCaption() {
   post.caption = captionInput.value
-  preview.innerHTML = renderPost(post)
+  preview.innerHTML = '' // replace previous preview
+  preview.appendChild(renderPost(post))
 }
 
 fileInput.addEventListener('change', updatePreviewPics)
@@ -28,7 +29,8 @@ function updatePreviewPics() {
 
     reader.onload = function (e) {
       post.pics.push(e.target.result)
-      preview.innerHTML = renderPost(post)
+      preview.innerHTML = '' // replace previous preview
+      preview.appendChild(renderPost(post))
     }
     reader.readAsDataURL(file)
   }
