@@ -8,10 +8,10 @@ let carousel = document.getElementById('carousel')
 // obj to preview
 let post = {
   id:        'preview-id',
-  author:    '',
+  author:    'Me',
   caption:   captionInput.value,
   pics:      [],
-  createdAt: ''
+  created_at: new Date().toISOString()
 }
 
 captionInput.addEventListener('change', updatePreviewCaption)
@@ -50,3 +50,5 @@ document.addEventListener('click', (e) => {
     return
   }
 })
+
+updatePreviewCaption()
