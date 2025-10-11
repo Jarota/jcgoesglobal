@@ -45,9 +45,15 @@ function renderPost(post) {
   let postDiv = document.createElement('div')
   postDiv.className = 'post'
   postDiv.id = post.id
+
+  let sig = post.author ? `
+    <p class="signature"> - ${post.author}</p>
+  ` : ''
+
   postDiv.innerHTML = 
       `<div class="caption-cntr">
         <p class="caption">${post.caption}</p>
+        ${sig}
       </div>`
 
   const pics = renderPics(post.id, post.pics)

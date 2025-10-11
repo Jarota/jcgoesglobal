@@ -64,3 +64,9 @@ footer {
 
   transform: rotate(270deg);
 }
+
+.signature {
+  text-align: right;
+  font-style: italic;
+  margin-right: 16px;
+}
