@@ -5,6 +5,7 @@ import (
 	"log/slog"
 	"mime/multipart"
 	"net/http"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/jarota/jctravels/internal/model"
@@ -13,10 +14,11 @@ import (
 const (
 	FormCaptionKey = "caption"
 	FormFileKey    = "image-upload"
+	FormDateKey    = "post-date"
 )
 
 type Store interface {
-	CreatePost(postID, caption, author string, likes int) error
+	CreatePost(postID, caption, author string, date time.Time) error
 	CreateImages(postID string, fileHeaders []*multipart.FileHeader) error
 	LookupAll() ([]*model.Post, error)
 }
@@ -48,7 +50,18 @@ func (h *handler) NewPost(w http.ResponseWriter, r *http.Request) {
 
 	postID := uuid.NewString()
 	caption := r.MultipartForm.Value[FormCaptionKey][0]
-	err = h.store.CreatePost(postID, caption, author, 0)
+
+	date, err := time.Parse(
+		time.DateOnly,
+		r.MultipartForm.Value[FormDateKey][0],
+	)
+	if err != nil {
+		slog.Error("failed to parse post date", slog.Any("err", err))
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	err = h.store.CreatePost(postID, caption, author, date)
 	if err != nil {
 		slog.Error("failed to create post", slog.Any("err", err))
 		w.WriteHeader(http.StatusInternalServerError)
@@ -56,7 +69,7 @@ func (h *handler) NewPost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Save any images uploaded too
-	if r.MultipartForm != nil && r.MultipartForm.File != nil {
+	if r.MultipartForm.File != nil {
 		err = h.store.CreateImages(postID, r.MultipartForm.File[FormFileKey])
 		if err != nil {
 			slog.Error("failed to create images", slog.Any("err", err))

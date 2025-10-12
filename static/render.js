@@ -52,7 +52,7 @@ function renderPost(post) {
 
   postDiv.innerHTML = 
       `<div class="caption-cntr">
-        <p class="date">${new Date(post.created_at).toDateString()}</p>
+        <p class="date">${new Date(post.date).toDateString()}</p>
         <p class="caption">${post.caption}</p>
         ${sig}
       </div>`

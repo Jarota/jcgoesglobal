@@ -1,22 +1,30 @@
 import {renderCarousel, hideCarousel, renderPost} from './render.js'
 
 let captionInput = document.getElementById('caption')
+let dateInput = document.getElementById('post-date')
 let fileInput = document.getElementById('image-upload')
 let preview = document.getElementById('preview')
 let carousel = document.getElementById('carousel')
 
 // obj to preview
 let post = {
-  id:        'preview-id',
-  author:    'Me',
-  caption:   captionInput.value,
-  pics:      [],
-  created_at: new Date().toISOString()
+  id:         'preview-id',
+  author:     'Me',
+  caption:    captionInput.value,
+  pics:       [],
+  date:       new Date().toISOString()
 }
 
 captionInput.addEventListener('change', updatePreviewCaption)
 function updatePreviewCaption() {
   post.caption = captionInput.value
+  preview.innerHTML = '' // replace previous preview
+  preview.appendChild(renderPost(post))
+}
+
+dateInput.addEventListener('change', updatePreviewDate)
+function updatePreviewDate() {
+  post.date = dateInput.value
   preview.innerHTML = '' // replace previous preview
   preview.appendChild(renderPost(post))
 }
@@ -51,4 +59,9 @@ document.addEventListener('click', (e) => {
   }
 })
 
-updatePreviewCaption()
+function initRender() {
+  dateInput.value = post.date.split('T')[0];
+  updatePreviewCaption()
+  updatePreviewDate()
+}
+initRender()

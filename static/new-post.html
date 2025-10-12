@@ -32,6 +32,9 @@
       <label for="caption">Add Caption</label>
       <textarea id="caption" name="caption" placeholder="Here we are in ..." required></textarea>
 
+      <label for="post-date">Choose When</label>
+      <input id="post-date" name="post-date" type="date" min="2025-08-01" max="2026-01-01">
+
       <div class="form-buttons">
 
         <label for="image-upload" class="image-upload-label">Add Pics</label>
@@ -44,7 +47,7 @@
     </form>
 
     <div id="preview">
-      <p>Nothing to preview (yet)</p>
+      <p id="empty-msg">Nothing to preview (yet)</p>
     </div>
     <div id="carousel" class="hidden"></div>
   </main>

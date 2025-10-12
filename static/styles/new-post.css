@@ -27,6 +27,15 @@ textarea:focus-visible {
   outline: solid #DB5461 2px;
 }
 
+#post-date {
+  font-size: 18px;
+  background: #95D7AE;
+  margin: 10px;
+
+  border: 1px solid;
+  border-radius: 8px;
+}
+
 .form-buttons {
   display: flex;
   justify-content: space-between;
@@ -72,6 +81,6 @@ button:hover {
 }
 
 /* For initial preview text */
-p {
+#empty-msg {
   text-align: center;
 }

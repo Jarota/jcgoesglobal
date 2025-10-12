@@ -66,7 +66,6 @@ hr {
   border-radius: 6px;
 
   display: flex;
-  overflow: scroll;
 }
 
 @media (orientation: portrait) {
@@ -76,6 +75,8 @@ hr {
     max-height: 70vh;
 
     flex-direction: column;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 }
 
@@ -86,6 +87,8 @@ hr {
     max-width: 90vw;
 
     flex-direction: row;
+    overflow-y: hidden;
+    overflow-x: scroll;
   }
 }
 
@@ -137,6 +140,8 @@ hr {
 
   font-size: 18px;
   margin: 12px 0 0 0;
+
+  white-space: pre-wrap;
 }
 
 .date {
