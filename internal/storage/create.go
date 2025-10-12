@@ -6,16 +6,17 @@ import (
 	"io"
 	"mime/multipart"
 	"os"
+	"time"
 
 	"github.com/google/uuid"
 )
 
 const createPostSQL = `
-	INSERT INTO posts (id, caption, author, hearts) VALUES ($1, $2, $3, $4);
+	INSERT INTO posts (id, caption, author, date) VALUES ($1, $2, $3, $4);
 `
 
-func (s *store) CreatePost(postID, caption, author string, hearts int) error {
-	res, err := s.db.Exec(createPostSQL, postID, caption, author, hearts)
+func (s *store) CreatePost(postID, caption, author string, date time.Time) error {
+	res, err := s.db.Exec(createPostSQL, postID, caption, author, date)
 	if err != nil {
 		return fmt.Errorf("failed to exec create post sql: %w", err)
 	}

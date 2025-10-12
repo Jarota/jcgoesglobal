@@ -1,19 +1,7 @@
 import {renderCarousel, hideCarousel, renderTimeline} from './render.js'
 
+let mainErr = document.getElementById('main-err')
 let carousel = document.getElementById('carousel')
-
-let posts = []
-fetch('/api/all').then(resp => {
-  if (!resp.ok) {
-    console.log('failed to fetch posts', `status: ${resp.status}`)
-    return
-  }
-
-  resp.json().then(postsJson => {
-    posts = postsJson.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-    renderTimeline(posts)
-  })
-})
 
 document.addEventListener('click', (e) => {
   // Show the carousel when clicking on pics
@@ -31,8 +19,22 @@ document.addEventListener('click', (e) => {
   }
 })
 
+let posts = []
+fetch('/api/all').then(resp => {
+  if (!resp.ok) {
+    console.log('failed to fetch posts', `status: ${resp.status}`)
+    mainErr.innerText = 'Oops, it borked. Come back later! 🛠️'
+    return
+  }
 
-/* SECRET NAV HANDLERS */
+  resp.json().then(postsJson => {
+    posts = postsJson.sort((a, b) => new Date(b.date) - new Date(a.date))
+    renderTimeline(posts)
+  })
+})
+
+
+/* SNEAKY NAV HANDLERS */
 
 let titleEl = document.getElementById('title')
 let longTapTimer

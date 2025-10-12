@@ -9,7 +9,7 @@ import (
 )
 
 const lookupAllSQL = `
-	SELECT posts.id, posts.caption, posts.author, posts.hearts, images.filename, posts.created_at
+	SELECT posts.id, posts.caption, posts.author, posts.date, images.filename, posts.created_at
 	FROM posts LEFT JOIN images ON posts.id = images.post_id
 	ORDER BY posts.created_at DESC;
 `
@@ -24,10 +24,9 @@ func (s *store) LookupAll() ([]*model.Post, error) {
 	posts := make(map[string]*model.Post)
 	for rows.Next() {
 		var id, caption, author string
-		var hearts int
 		var filename sql.NullString
-		var createdAt time.Time
-		if err := rows.Scan(&id, &caption, &author, &hearts, &filename, &createdAt); err != nil {
+		var date, createdAt time.Time
+		if err := rows.Scan(&id, &caption, &author, &date, &filename, &createdAt); err != nil {
 			return nil, fmt.Errorf("failed to scan row: %w", err)
 		}
 
@@ -36,7 +35,7 @@ func (s *store) LookupAll() ([]*model.Post, error) {
 				ID:        id,
 				Caption:   caption,
 				Author:    author,
-				Hearts:    hearts,
+				Date:      date,
 				CreatedAt: createdAt,
 			}
 		}

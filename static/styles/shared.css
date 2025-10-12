@@ -10,7 +10,7 @@ h1 {
   font-family: "Damion", cursive;
 
   text-align: center;
-  margin: 60px 0 20px;
+  margin: 40px 0 20px;
 
   user-select: none;
   touch-action: none;
@@ -66,7 +66,6 @@ hr {
   border-radius: 6px;
 
   display: flex;
-  overflow: scroll;
 }
 
 @media (orientation: portrait) {
@@ -76,6 +75,8 @@ hr {
     max-height: 70vh;
 
     flex-direction: column;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 }
 
@@ -86,6 +87,8 @@ hr {
     max-width: 90vw;
 
     flex-direction: row;
+    overflow-y: hidden;
+    overflow-x: scroll;
   }
 }
 
@@ -136,6 +139,22 @@ hr {
   margin: 0;
 
   font-size: 18px;
+  margin: 12px 0 0 0;
+
+  white-space: pre-wrap;
+}
+
+.date {
+  font-size: 14px;
+  text-align: left;
+  margin: 6px 0 0 6px;
+}
+
+.signature {
+  font-size: 16px;
+  font-style: italic;
+  text-align: right;
+  margin: 16px 6px 0 0;
 }
 
 .pics {
@@ -151,10 +170,11 @@ hr {
   cursor: zoom-in;
 }
 
-.pic {
+.pic-cntr {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+
+  background: #BBBDF6;
 
   border: 2px solid #593C8F;
   border-radius: 24px;
@@ -162,7 +182,46 @@ hr {
   position: absolute;
 }
 
+.pic {
+  width: 100%;
+  height: 100%;
+  border-radius: 22px;
+  object-fit: cover;
+}
+
 .fade-in {
   animation: fade 0.15s ease-out;
   animation-delay: 0.1s;
+}
+
+/* shamelessly lifted from https://css-loaders.com/dots/ */
+.loader {
+  width: 60px;
+  margin: 100px auto 0;
+  aspect-ratio: 2;
+  --_g: no-repeat radial-gradient(circle closest-side, #593C8F 90%, #593C8F00);
+  background:
+    var(--_g) 0% 50%,
+    var(--_g) 50% 50%,
+    var(--_g) 100% 50%;
+  background-size: calc(100%/3) 50%;
+  animation: l3 1s infinite linear;
+}
+
+@keyframes l3 {
+  20% {
+    background-position: 0% 0%, 50% 50%, 100% 50%
+  }
+
+  40% {
+    background-position: 0% 100%, 50% 0%, 100% 50%
+  }
+
+  60% {
+    background-position: 0% 50%, 50% 100%, 100% 0%
+  }
+
+  80% {
+    background-position: 0% 50%, 50% 50%, 100% 100%
+  }
 }

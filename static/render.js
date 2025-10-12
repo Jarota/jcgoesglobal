@@ -22,7 +22,11 @@ function hideCarousel() {
 }
 
 function renderTimeline(posts) {
-  let timelineHtml = ''
+  let timeline = document.getElementById('timeline')
+  if (posts.length === 0) {
+    timeline.innerHTML = `<p>No posts (yet)!</p>`
+    return
+  }
 
   let firstPost = true
   posts.forEach((post) => {
@@ -32,52 +36,77 @@ function renderTimeline(posts) {
       firstPost = false
     }
 
-    timelineHtml += `
-      ${verticalLine}
-      ${renderPost(post)}
-    `
+    timeline.innerHTML += `${verticalLine}`
+    timeline.appendChild(renderPost(post))
   })
-
-  if (timelineHtml === '') {
-    timelineHtml = `<p>No posts (yet)!</p>`
-  }
-
-  document.getElementById('timeline').innerHTML = timelineHtml
 }
 
 function renderPost(post) {
-  return `<div class="post" id="${post.id}">
-      <div class="caption-cntr">
+  let postDiv = document.createElement('div')
+  postDiv.className = 'post'
+  postDiv.id = post.id
+
+  let sig = post.author ? `
+    <p class="signature"> - ${post.author}</p>
+  ` : ''
+
+  postDiv.innerHTML = 
+      `<div class="caption-cntr">
+        <p class="date">${new Date(post.date).toDateString()}</p>
         <p class="caption">${post.caption}</p>
-      </div>
-      ${renderPics(post.id, post.pics)}
-    </div>
-  `  
+        ${sig}
+      </div>`
+
+  const pics = renderPics(post.id, post.pics)
+  if (pics) {
+    postDiv.appendChild(pics)
+  }
+
+  return postDiv
 }
 
 function renderPics(id, paths) {
   if (!paths || paths.length === 0) {
-    return ''
+    return null
   }
 
-  let picsHtml = ''
+  let picsDiv = document.createElement('div')
+  picsDiv.className = 'pics'
+  picsDiv.dataset.zoom = id
+
   let degrees = -10
   let z = -1
   paths.forEach((path) => {
-    picsHtml += `<img class="pic"
-      src="${path}" data-zoom="${id}"
-      style="transform: rotate(${degrees}deg); z-index: ${z};"
-    >`
+    let container = document.createElement('div')
+
+    const containerId = `container-${path}`
+    container.id = containerId
+    container.className = 'pic-cntr'
+    container.style.transform = `rotate(${degrees}deg)`
+    container.style.zIndex = z
+
+    let loader = document.createElement('div')
+    const loaderId = `loader-${path}`
+    loader.id = loaderId
+    loader.className = 'loader'
+    container.appendChild(loader)
+
+    let pic = document.createElement('img')
+    pic.className = 'pic'
+    pic.dataset.zoom = id
+    pic.onload = () => {
+      let loader = document.getElementById(loaderId)
+      document.getElementById(containerId).replaceChild(pic, loader)
+    }
+    pic.src = path
+
+    picsDiv.appendChild(container)
 
     degrees = (degrees > 0 ? degrees + 10 : degrees - 10) * -1
     z -= 1
   })
 
-  return `
-    <div class="pics" data-zoom="${id}">
-      ${picsHtml}
-    </div>
-  `
+  return picsDiv
 }
 
 export {renderCarousel, hideCarousel, renderTimeline, renderPost}
