@@ -1,7 +1,14 @@
+const vidTypes = ['.mp4', '.mov']
+
 function renderCarousel(carousel, post) {
   let zoomedHtml = ''
   post.pics.forEach((path) => {
-    zoomedHtml += `
+    let isVid = vidTypes.some(type => path.includes(type))
+    zoomedHtml += isVid ? `
+      <video controls src="${path}" class="large-pic">
+        video not supported :/
+      </video>      
+    ` : `
       <img src="${path}" class="large-pic">
     `
   })
@@ -91,14 +98,12 @@ function renderPics(id, paths) {
     loader.className = 'loader'
     container.appendChild(loader)
 
-    let pic = document.createElement('img')
-    pic.className = 'pic'
-    pic.dataset.zoom = id
-    pic.onload = () => {
-      let loader = document.getElementById(loaderId)
-      document.getElementById(containerId).replaceChild(pic, loader)
+    const isVid = vidTypes.some(type => path.includes(type))
+    if (isVid) {
+      renderVid(id, path, containerId, loaderId)
+    } else {
+      renderPic(id, path, containerId, loaderId)
     }
-    pic.src = path
 
     picsDiv.appendChild(container)
 
@@ -107,6 +112,32 @@ function renderPics(id, paths) {
   })
 
   return picsDiv
+}
+
+function renderVid(postId, path, containerId, loaderId) {
+  let vid = document.createElement('video')
+  vid.innerHTML = `
+    Video not supported :/
+  ` // ^ in case embedding doesn't work
+
+  vid.className = 'pic'
+  vid.dataset.zoom = postId
+  vid.onloadeddata = () => {
+    let loader = document.getElementById(loaderId)
+    document.getElementById(containerId).replaceChild(vid, loader)
+  }
+  vid.src = path
+}
+
+function renderPic(postId, path, containerId, loaderId) {
+  let pic = document.createElement('img')
+  pic.className = 'pic'
+  pic.dataset.zoom = postId
+  pic.onload = () => {
+    let loader = document.getElementById(loaderId)
+    document.getElementById(containerId).replaceChild(pic, loader)
+  }
+  pic.src = path
 }
 
 export {renderCarousel, hideCarousel, renderTimeline, renderPost}
