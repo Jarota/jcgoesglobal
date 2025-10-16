@@ -31,14 +31,19 @@ function updatePreviewDate() {
 
 fileInput.addEventListener('change', updatePreviewPics)
 function updatePreviewPics() {
-  post.pics = []
+  let loaded = 0
+  const total = fileInput.files.length
   for (const file of fileInput.files) {
     const reader = new FileReader()
 
     reader.onload = function (e) {
       post.pics.push(e.target.result)
-      preview.innerHTML = '' // replace previous preview
-      preview.appendChild(renderPost(post))
+
+      loaded++
+      if (loaded === total) {
+        preview.innerHTML = '' // replace previous preview
+        preview.appendChild(renderPost(post))
+      }
     }
     reader.readAsDataURL(file)
   }
