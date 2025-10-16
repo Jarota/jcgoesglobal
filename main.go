@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/jarota/jctravels/internal/backfill"
 	"github.com/jarota/jctravels/internal/handler"
 	"github.com/jarota/jctravels/internal/storage"
 )
@@ -36,6 +37,12 @@ func main() {
 			slog.Error("failed to close store", slog.Any("err", err))
 		}
 	}()
+
+	err = backfill.Thumbnails(siteRoot + uploadDir).Run()
+	if err != nil {
+		slog.Error("failed to backfill thumbnails", slog.Any("err", err))
+		return
+	}
 
 	slog.Info("registering endpoint handlers...")
 	h := handler.New(store)

@@ -3,13 +3,18 @@ package storage
 import (
 	"database/sql"
 	"fmt"
+	"image/jpeg"
 	"io"
 	"mime/multipart"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/rymdport/resize"
 )
+
+const thumbnailSize = 500
 
 const createPostSQL = `
 	INSERT INTO posts (id, caption, author, date) VALUES ($1, $2, $3, $4);
@@ -36,15 +41,26 @@ func (s *store) CreateImages(postID string, fileHeaders []*multipart.FileHeader)
 		}
 		defer file.Close()
 
-		dst, err := os.Create(s.siteRoot + s.uploadDir + f.Filename)
+		path := s.siteRoot + s.uploadDir + f.Filename
+		dst, err := os.Create(path)
 		if err != nil {
-			return fmt.Errorf("failed to create file %s: %w", f.Filename, err)
+			return fmt.Errorf("failed to create file %s: %w", path, err)
 		}
 		defer dst.Close()
 
 		_, err = io.Copy(dst, file)
 		if err != nil {
 			return fmt.Errorf("failed to copy file: %w", err)
+		}
+
+		// only create thumbnails for jpeg files
+		if strings.Contains(f.Filename, ".jpg") ||
+			strings.Contains(f.Filename, ".jpeg") {
+
+			err = CreateThumbnail(dst, path+"-thumbnail")
+			if err != nil {
+				return fmt.Errorf("failed to create thumbnail for %s: %w", path, err)
+			}
 		}
 
 		res, err := s.db.Exec(createImageSQL, uuid.NewString(), f.Filename, postID)
@@ -55,6 +71,33 @@ func (s *store) CreateImages(postID string, fileHeaders []*multipart.FileHeader)
 		if err = handleInsertResult(res); err != nil {
 			return err
 		}
+	}
+
+	return nil
+}
+
+func CreateThumbnail(orig io.Reader, path string) error {
+	img, err := jpeg.Decode(orig)
+	if err != nil {
+		return fmt.Errorf("failed to decode image: %w", err)
+	}
+
+	dst, err := os.Create(path)
+	if err != nil {
+		return fmt.Errorf("failed to create file %s: %w", path, err)
+	}
+	defer dst.Close()
+
+	// 0 height preserves aspect ratio
+	thumbnail := resize.Resize(
+		thumbnailSize,
+		0,
+		img,
+		resize.MitchellNetravali,
+	)
+	err = jpeg.Encode(dst, thumbnail, nil)
+	if err != nil {
+		return fmt.Errorf("failed to encode thumbnail: %w", err)
 	}
 
 	return nil
