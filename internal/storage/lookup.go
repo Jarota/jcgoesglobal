@@ -3,13 +3,14 @@ package storage
 import (
 	"database/sql"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/jarota/jctravels/internal/model"
 )
 
 const lookupAllSQL = `
-	SELECT posts.id, posts.caption, posts.author, posts.date, images.filename, posts.created_at
+	SELECT posts.id, posts.caption, posts.author, posts.date, images.id, images.filename, posts.created_at
 	FROM posts LEFT JOIN images ON posts.id = images.post_id
 	ORDER BY posts.created_at DESC;
 `
@@ -24,9 +25,9 @@ func (s *store) LookupAll() ([]*model.Post, error) {
 	posts := make(map[string]*model.Post)
 	for rows.Next() {
 		var id, caption, author string
-		var filename sql.NullString
+		var picID, filename sql.NullString
 		var date, createdAt time.Time
-		if err := rows.Scan(&id, &caption, &author, &date, &filename, &createdAt); err != nil {
+		if err := rows.Scan(&id, &caption, &author, &date, &picID, &filename, &createdAt); err != nil {
 			return nil, fmt.Errorf("failed to scan row: %w", err)
 		}
 
@@ -40,10 +41,32 @@ func (s *store) LookupAll() ([]*model.Post, error) {
 			}
 		}
 
-		if filename.Valid {
+		if picID.Valid && filename.Valid {
+			var thumbnail string
+			len := len(filename.String)
+			suffix := "-thumbnail"
+			switch {
+			case strings.Contains(filename.String, ".jpg"):
+				thumbnail = filename.String[:len-4] + suffix + ".jpg"
+			case strings.Contains(filename.String, ".jpeg"):
+				thumbnail = filename.String[:len-5] + suffix + ".jpeg"
+			}
+
+			var thumbnailPath string
+			if thumbnail != "" {
+				thumbnailPath = s.uploadDir + thumbnail
+			}
+
 			// Only need to append `filename` to `uploadDir` when returning
 			// as the frontend is served from *within* `s.siteRoot`
-			posts[id].Pics = append(posts[id].Pics, s.uploadDir+filename.String)
+			posts[id].Pics = append(
+				posts[id].Pics,
+				model.Pic{
+					ID:            picID.String,
+					HDPath:        s.uploadDir + filename.String,
+					ThumbnailPath: thumbnailPath,
+				},
+			)
 		}
 	}
 
