@@ -13,6 +13,11 @@ function renderCarousel(carousel, post) {
     `
   })
   carousel.innerHTML = zoomedHtml
+  
+  // reset the scroll for the new carousel
+  carousel.scrollTop = 0
+  carousel.scrollLeft = 0
+
   carousel.classList.remove('hidden')
   carousel.classList.add('shown')
 
