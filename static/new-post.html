@@ -40,7 +40,7 @@
         <label for="image-upload" class="image-upload-label">Add Pics</label>
         <input id="image-upload" name="image-upload" type="file" accept="image/*,video/*" multiple>
 
-        <button type="submit">Post!</button>
+        <button id="submit-btn" type="submit">Post!</button>
 
       </div>
 
@@ -50,6 +50,12 @@
       <p id="empty-msg">Nothing to preview (yet)</p>
     </div>
     <div id="carousel" class="hidden"></div>
+    <div id="loading-modal" class="hidden">
+      <div class="loading-cntr">
+        <p class="loading-msg">Processing</p>
+        <div class="loader"></div>
+      </div>
+    </div>
   </main>
 
   <footer>

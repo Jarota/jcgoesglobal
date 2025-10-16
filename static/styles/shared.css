@@ -194,6 +194,36 @@ hr {
   animation-delay: 0.1s;
 }
 
+#loading-modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  background: #BBBDF6aa;
+  z-index: 10;
+
+  border: 4px solid #593C8F;
+  border-radius: 6px;
+}
+
+.loading-cntr {
+  width: 200px;
+  margin: 300px auto 0;
+  padding-bottom: 24px;
+  background: #95D7AE;
+  border: 4px solid #593C8F;
+  border-radius: 6px;
+}
+
+.loading-msg {
+  font-size: 20px;
+  text-align: center;
+  font-style: italic;
+  margin-bottom: -60px;
+}
+
 /* shamelessly lifted from https://css-loaders.com/dots/ */
 .loader {
   width: 60px;

@@ -1,5 +1,6 @@
 import {renderCarousel, hideCarousel, renderPost} from './render.js'
 
+let submitBtn = document.getElementById('submit-btn')
 let captionInput = document.getElementById('caption')
 let dateInput = document.getElementById('post-date')
 let fileInput = document.getElementById('image-upload')
@@ -70,3 +71,8 @@ function initRender() {
   updatePreviewDate()
 }
 initRender()
+
+submitBtn.addEventListener('click', showLoadingModal)
+function showLoadingModal() {
+  document.getElementById('loading-modal').classList.toggle('hidden')
+}
