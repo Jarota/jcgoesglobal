@@ -1,5 +1,6 @@
 import {renderCarousel, hideCarousel, renderPost} from './render.js'
 
+let submitBtn = document.getElementById('submit-btn')
 let captionInput = document.getElementById('caption')
 let dateInput = document.getElementById('post-date')
 let fileInput = document.getElementById('image-upload')
@@ -31,14 +32,19 @@ function updatePreviewDate() {
 
 fileInput.addEventListener('change', updatePreviewPics)
 function updatePreviewPics() {
-  post.pics = []
+  let loaded = 0
+  const total = fileInput.files.length
   for (const file of fileInput.files) {
     const reader = new FileReader()
 
     reader.onload = function (e) {
       post.pics.push(e.target.result)
-      preview.innerHTML = '' // replace previous preview
-      preview.appendChild(renderPost(post))
+
+      loaded++
+      if (loaded === total) {
+        preview.innerHTML = '' // replace previous preview
+        preview.appendChild(renderPost(post))
+      }
     }
     reader.readAsDataURL(file)
   }
@@ -65,3 +71,8 @@ function initRender() {
   updatePreviewDate()
 }
 initRender()
+
+submitBtn.addEventListener('click', showLoadingModal)
+function showLoadingModal() {
+  document.getElementById('loading-modal').classList.toggle('hidden')
+}
