@@ -2,7 +2,8 @@ const vidTypes = ['.mp4', '.mov']
 
 function renderCarousel(carousel, post) {
   let zoomedHtml = ''
-  post.pics.forEach((path) => {
+  post.pics.forEach((pic) => {
+    const path = pic.path
     let isVid = vidTypes.some(type => path.includes(type))
     zoomedHtml += isVid ? `
       <video controls src="${path}" class="large-pic">
@@ -77,8 +78,8 @@ function renderPost(post) {
   return postDiv
 }
 
-function renderPics(id, paths) {
-  if (!paths || paths.length === 0) {
+function renderPics(id, pics) {
+  if (!pics || pics.length === 0) {
     return null
   }
 
@@ -88,26 +89,27 @@ function renderPics(id, paths) {
 
   let degrees = -10
   let z = -1
-  paths.forEach((path) => {
+  pics.forEach((pic) => {
     let container = document.createElement('div')
 
-    const containerId = `container-${path}`
+    const containerId = `container-${pic.id}`
     container.id = containerId
     container.className = 'pic-cntr'
     container.style.transform = `rotate(${degrees}deg)`
     container.style.zIndex = z
 
     let loader = document.createElement('div')
-    const loaderId = `loader-${path}`
+    const loaderId = `loader-${pic.id}`
     loader.id = loaderId
     loader.className = 'loader'
     container.appendChild(loader)
 
+    const path = pic.path
     const isVid = vidTypes.some(type => path.includes(type))
     if (isVid) {
       renderVid(id, path, containerId, loaderId)
     } else {
-      renderPic(id, path, containerId, loaderId)
+      renderPic(id, pic.thumbnail, containerId, loaderId)
     }
 
     picsDiv.appendChild(container)

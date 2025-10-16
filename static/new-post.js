@@ -38,7 +38,8 @@ function updatePreviewPics() {
     const reader = new FileReader()
 
     reader.onload = function (e) {
-      post.pics.push(e.target.result)
+      const res = e.target.result
+      post.pics.push({id: res, path: res, thumbnail: res})
 
       loaded++
       if (loaded === total) {
