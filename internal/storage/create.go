@@ -14,7 +14,7 @@ import (
 	"github.com/rymdport/resize"
 )
 
-const thumbnailSize = 500
+const thumbnailSize = 800
 
 const createPostSQL = `
 	INSERT INTO posts (id, caption, author, date) VALUES ($1, $2, $3, $4);
@@ -89,9 +89,9 @@ func CreateThumbnail(orig io.Reader, path string) error {
 	defer dst.Close()
 
 	// 0 height preserves aspect ratio
-	thumbnail := resize.Resize(
+	thumbnail := resize.Thumbnail(
 		thumbnailSize,
-		0,
+		thumbnailSize,
 		img,
 		resize.MitchellNetravali,
 	)
