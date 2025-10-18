@@ -26,37 +26,22 @@ func (t *thumbnails) Run() error {
 	}
 
 	for _, entry := range entries {
-		filename := entry.Name()
-
-		var newFilename string
-		len := len(filename)
-		suffix := "-thumbnail"
-		switch {
-		case strings.Contains(filename, "-thumbnail"):
-			// no need to create thumbnails of thumbnails
-			continue
-		case strings.Contains(filename, ".jpg"):
-			newFilename = filename[:len-4] + suffix + ".jpg"
-		case strings.Contains(filename, ".jpeg"):
-			newFilename = filename[:len-5] + suffix + ".jpeg"
-		default:
+		// skip non-jpeg files
+		isJPEG := strings.Contains(entry.Name(), ".jpg") ||
+			strings.Contains(entry.Name(), ".jpeg")
+		if !isJPEG {
 			continue
 		}
 
-		// in the interest of idempotency, skip already created thumbnails
-		_, err := os.Open(newFilename)
-		if os.IsNotExist(err) {
-			srcPath := t.imgDir + filename
-			src, err := os.Open(srcPath)
-			if err != nil {
-				return fmt.Errorf("failed to open %s: %w", srcPath, err)
-			}
+		// skip existing thumbnails
+		if strings.Contains(entry.Name(), "-thumbnail") {
+			continue
+		}
 
-			dst := t.imgDir + newFilename
-			err = storage.CreateThumbnail(src, dst)
-			if err != nil {
-				return fmt.Errorf("failed to create thumbnail for %s: %w", dst, err)
-			}
+		src := t.imgDir + entry.Name()
+		err = storage.CreateThumbnail(src)
+		if err != nil {
+			return fmt.Errorf("failed to create thumbnail for %s: %w", src, err)
 		}
 	}
 

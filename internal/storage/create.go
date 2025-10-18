@@ -3,7 +3,6 @@ package storage
 import (
 	"database/sql"
 	"fmt"
-	"image/jpeg"
 	"io"
 	"mime/multipart"
 	"os"
@@ -11,7 +10,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/rymdport/resize"
+	"github.com/h2non/bimg"
 )
 
 const thumbnailSize = 800
@@ -57,7 +56,7 @@ func (s *store) CreateImages(postID string, fileHeaders []*multipart.FileHeader)
 		if strings.Contains(f.Filename, ".jpg") ||
 			strings.Contains(f.Filename, ".jpeg") {
 
-			err = CreateThumbnail(dst, path+"-thumbnail")
+			err = CreateThumbnail(path)
 			if err != nil {
 				return fmt.Errorf("failed to create thumbnail for %s: %w", path, err)
 			}
@@ -76,31 +75,37 @@ func (s *store) CreateImages(postID string, fileHeaders []*multipart.FileHeader)
 	return nil
 }
 
-func CreateThumbnail(orig io.Reader, path string) error {
-	img, err := jpeg.Decode(orig)
+func CreateThumbnail(path string) error {
+	orig, err := bimg.Read(path)
 	if err != nil {
-		return fmt.Errorf("failed to decode image: %w", err)
+		return fmt.Errorf("failed to read path %s: %w", path, err)
 	}
 
-	dst, err := os.Create(path)
+	new, err := bimg.NewImage(orig).Thumbnail(thumbnailSize)
 	if err != nil {
-		return fmt.Errorf("failed to create file %s: %w", path, err)
+		return fmt.Errorf("failed to init image: %w", err)
 	}
-	defer dst.Close()
 
-	// 0 height preserves aspect ratio
-	thumbnail := resize.Thumbnail(
-		thumbnailSize,
-		thumbnailSize,
-		img,
-		resize.MitchellNetravali,
-	)
-	err = jpeg.Encode(dst, thumbnail, nil)
+	dst := thumbnailPath(path)
+	err = bimg.Write(thumbnailPath(path), new)
 	if err != nil {
-		return fmt.Errorf("failed to encode thumbnail: %w", err)
+		return fmt.Errorf("failed to write path %s: %w", dst, err)
 	}
 
 	return nil
+}
+
+func thumbnailPath(path string) string {
+	len := len(path)
+	suffix := "-thumbnail"
+	switch {
+	case strings.Contains(path, ".jpg"):
+		return path[:len-4] + suffix + ".jpg"
+	case strings.Contains(path, ".jpeg"):
+		return path[:len-5] + suffix + ".jpeg"
+	default:
+		return ""
+	}
 }
 
 func handleInsertResult(res sql.Result) error {

@@ -3,7 +3,6 @@ package storage
 import (
 	"database/sql"
 	"fmt"
-	"strings"
 	"time"
 
 	"github.com/jarota/jctravels/internal/model"
@@ -42,20 +41,7 @@ func (s *store) LookupAll() ([]*model.Post, error) {
 		}
 
 		if picID.Valid && filename.Valid {
-			var thumbnail string
-			len := len(filename.String)
-			suffix := "-thumbnail"
-			switch {
-			case strings.Contains(filename.String, ".jpg"):
-				thumbnail = filename.String[:len-4] + suffix + ".jpg"
-			case strings.Contains(filename.String, ".jpeg"):
-				thumbnail = filename.String[:len-5] + suffix + ".jpeg"
-			}
-
-			var thumbnailPath string
-			if thumbnail != "" {
-				thumbnailPath = s.uploadDir + thumbnail
-			}
+			path := s.uploadDir + filename.String
 
 			// Only need to append `filename` to `uploadDir` when returning
 			// as the frontend is served from *within* `s.siteRoot`
@@ -63,8 +49,8 @@ func (s *store) LookupAll() ([]*model.Post, error) {
 				posts[id].Pics,
 				model.Pic{
 					ID:            picID.String,
-					HDPath:        s.uploadDir + filename.String,
-					ThumbnailPath: thumbnailPath,
+					HDPath:        path,
+					ThumbnailPath: thumbnailPath(path),
 				},
 			)
 		}
