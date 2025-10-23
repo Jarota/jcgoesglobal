@@ -70,6 +70,8 @@ func (h *handler) NewPost(w http.ResponseWriter, r *http.Request) {
 
 	// Save any images uploaded too
 	if r.MultipartForm.File != nil {
+		// TODO: add some kind of rollback - if e.g. compression fails
+		// here, the post will still go live, just without images
 		err = h.store.CreateImages(postID, r.MultipartForm.File[FormFileKey])
 		if err != nil {
 			slog.Error("failed to create images", slog.Any("err", err))

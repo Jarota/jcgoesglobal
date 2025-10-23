@@ -13,7 +13,11 @@ import (
 	"github.com/h2non/bimg"
 )
 
-const thumbnailSize = 800
+const (
+	// both in pixels
+	thumbnailSize   = 250
+	compressedWidth = 500
+)
 
 const createPostSQL = `
 	INSERT INTO posts (id, caption, author, date) VALUES ($1, $2, $3, $4);
@@ -52,13 +56,18 @@ func (s *store) CreateImages(postID string, fileHeaders []*multipart.FileHeader)
 			return fmt.Errorf("failed to copy file: %w", err)
 		}
 
-		// only create thumbnails for jpeg files
+		// only create thumbnails, etc. for jpeg files
 		if strings.Contains(f.Filename, ".jpg") ||
 			strings.Contains(f.Filename, ".jpeg") {
 
 			err = CreateThumbnail(path)
 			if err != nil {
 				return fmt.Errorf("failed to create thumbnail for %s: %w", path, err)
+			}
+
+			err = CreateCompressed(path)
+			if err != nil {
+				return fmt.Errorf("failed to compress %s: %w", path, err)
 			}
 		}
 
@@ -86,8 +95,8 @@ func CreateThumbnail(path string) error {
 		return fmt.Errorf("failed to init image: %w", err)
 	}
 
-	dst := thumbnailPath(path)
-	err = bimg.Write(thumbnailPath(path), new)
+	dst := addSuffix(path, "-thumbnail")
+	err = bimg.Write(dst, new)
 	if err != nil {
 		return fmt.Errorf("failed to write path %s: %w", dst, err)
 	}
@@ -95,9 +104,37 @@ func CreateThumbnail(path string) error {
 	return nil
 }
 
-func thumbnailPath(path string) string {
+func CreateCompressed(path string) error {
+	orig, err := bimg.Read(path)
+	if err != nil {
+		return fmt.Errorf("failed to read path %s: %w", path, err)
+	}
+
+	img := bimg.NewImage(orig)
+	size, err := img.Size()
+	if err != nil {
+		return fmt.Errorf("failed to get size of img: %w", err)
+	}
+
+	height := int(float64(compressedWidth) * float64(size.Height) / float64(size.Width))
+
+	new, err := img.Resize(compressedWidth, height)
+	if err != nil {
+		return fmt.Errorf("failed to init image: %w", err)
+	}
+
+	dst := addSuffix(path, "-compressed")
+	err = bimg.Write(dst, new)
+	if err != nil {
+		return fmt.Errorf("failed to write path %s: %w", dst, err)
+	}
+
+	return nil
+}
+
+// TODO: a more robust implementation for all filetypes
+func addSuffix(path, suffix string) string {
 	len := len(path)
-	suffix := "-thumbnail"
 	switch {
 	case strings.Contains(path, ".jpg"):
 		return path[:len-4] + suffix + ".jpg"

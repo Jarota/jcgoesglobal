@@ -48,9 +48,10 @@ func (s *store) LookupAll() ([]*model.Post, error) {
 			posts[id].Pics = append(
 				posts[id].Pics,
 				model.Pic{
-					ID:            picID.String,
-					HDPath:        path,
-					ThumbnailPath: thumbnailPath(path),
+					ID:         picID.String,
+					HDPath:     path,
+					Compressed: addSuffix(path, "-compressed"),
+					Thumbnail:  addSuffix(path, "-thumbnail"),
 				},
 			)
 		}

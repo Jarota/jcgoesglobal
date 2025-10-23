@@ -10,7 +10,7 @@ function renderCarousel(carousel, post) {
         video not supported :/
       </video>      
     ` : `
-      <img src="${pic.thumbnail}" class="large-pic">
+      <img src="${pic.compressed}" class="large-pic">
     `
   })
   carousel.innerHTML = zoomedHtml
