@@ -33,8 +33,8 @@ func (t *thumbnails) Run() error {
 			continue
 		}
 
-		// skip existing thumbnails
-		if strings.Contains(entry.Name(), "-thumbnail") {
+		// no need to create thumbnail of a thumbnail
+		if strings.Contains(entry.Name(), "-") {
 			continue
 		}
 
@@ -42,6 +42,11 @@ func (t *thumbnails) Run() error {
 		err = storage.CreateThumbnail(src)
 		if err != nil {
 			return fmt.Errorf("failed to create thumbnail for %s: %w", src, err)
+		}
+
+		err = storage.CreateCompressed(src)
+		if err != nil {
+			return fmt.Errorf("failed to create compressed image for %s: %w", src, err)
 		}
 	}
 

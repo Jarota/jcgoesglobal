@@ -12,7 +12,8 @@ type Post struct {
 }
 
 type Pic struct {
-	ID            string `json:"id"`
-	HDPath        string `json:"path"`
-	ThumbnailPath string `json:"thumbnail"`
+	ID         string `json:"id"`
+	HDPath     string `json:"path"`
+	Compressed string `json:"compressed"`
+	Thumbnail  string `json:"thumbnail"`
 }
