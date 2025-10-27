@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	"io"
-	"log/slog"
 	"mime/multipart"
 	"os"
 	"strings"
