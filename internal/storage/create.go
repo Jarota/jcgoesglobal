@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"io"
+	"log/slog"
 	"mime/multipart"
 	"os"
 	"strings"
@@ -116,9 +117,25 @@ func CreateCompressed(path string) error {
 		return fmt.Errorf("failed to get size of img: %w", err)
 	}
 
-	height := int(float64(compressedWidth) * float64(size.Height) / float64(size.Width))
+	width := compressedWidth
+	height := int(float64(width) * float64(size.Height) / float64(size.Width))
 
-	new, err := img.Resize(compressedWidth, height)
+	// possibly need to swap width and height,
+	// depending on the exif orientation flag.
+	md, err := img.Metadata()
+	if err != nil {
+		return fmt.Errorf("failed to get image metadata: %w", err)
+	}
+
+	// `6` and `8` mean the camera was rotated to
+	// 'portrait' position.
+	if md.Orientation == 6 || md.Orientation == 8 {
+		temp := width
+		width = height
+		height = temp
+	}
+
+	new, err := img.Resize(width, height)
 	if err != nil {
 		return fmt.Errorf("failed to init image: %w", err)
 	}
