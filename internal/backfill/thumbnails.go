@@ -33,8 +33,9 @@ func (t *thumbnails) Run() error {
 			continue
 		}
 
-		// no need to create thumbnail of a thumbnail
-		if strings.Contains(entry.Name(), "-") {
+		if strings.Contains(entry.Name(), "thumbnail") ||
+			strings.Contains(entry.Name(), "compressed") {
+			// no need to create a thumbnail of a thumbnail
 			continue
 		}
 
