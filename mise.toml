@@ -1,0 +1,11 @@
+[tools]
+caddy = "latest"
+go = "latest"
+golangci-lint = "latest"
+golangci-lint-langserver = "latest"
+just = "latest"
+node = "latest"
+"npm:typescript-language-server" = "latest"
+"npm:vscode-langservers-extracted" = "latest"
+sqlite = "latest"
+superhtml = "latest"
